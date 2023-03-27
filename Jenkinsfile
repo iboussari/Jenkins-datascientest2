@@ -12,6 +12,7 @@ steps {
 
 script {
 sh '''
+
  docker rm -f jenkins
  docker build -t $DOCKER_ID/$DOCKER_IMAGE:$DOCKER_TAG .
 sleep 6
@@ -76,10 +77,10 @@ stage('Deploiement en dev'){
                 mkdir .kube
                 ls
                 cat $KUBECONFIG > .kube/config
-                cp Jenkins-datascientest/fastapi/values.yaml values.yml
+                cp fastapi/values.yaml values.yml
                 cat values.yml
                 sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
-                helm upgrade --install app Jenkins-datascientest/fastapi --values=values.yml --namespace dev
+                helm upgrade --install app fastapi --values=values.yml --namespace dev
                 '''
                 }
             }
@@ -97,10 +98,10 @@ stage('Deploiement en staging'){
                 mkdir .kube
                 ls
                 cat $KUBECONFIG > .kube/config
-                cp Jenkins-datascientest/fastapi/values.yaml values.yml
+                cp fastapi/values.yaml values.yml
                 cat values.yml
                 sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
-                helm upgrade --install app Jenkins-datascientest/fastapi --values=values.yml --namespace dev
+                helm upgrade --install app fastapi --values=values.yml --namespace dev
                 '''
                 }
             }
@@ -123,10 +124,10 @@ stage('Deploiement en staging'){
                 mkdir .kube
                 ls
                 cat $KUBECONFIG > .kube/config
-                cp Jenkins-datascientest/fastapi/values.yaml values.yml
+                cp fastapi/values.yaml values.yml
                 cat values.yml
                 sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
-                helm upgrade --install app Jenkins-datascientest/fastapi --values=values.yml --namespace dev
+                helm upgrade --install app fastapi --values=values.yml --namespace dev
                 '''
                 }
             }

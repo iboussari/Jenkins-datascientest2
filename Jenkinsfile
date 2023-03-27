@@ -92,7 +92,7 @@ stage('Deploiement en staging'){
                 cp fastapi/values.yaml values.yml
                 cat values.yml
                 sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
-                helm upgrade --install app fastapi --values=values.yml --namespace staging
+                helm upgrade --install app fastapi --values=values.yml --namespace dev
                 '''
                 }
             }
@@ -119,12 +119,20 @@ stage('Deploiement en staging'){
                 cp fastapi/values.yaml values.yml
                 cat values.yml
                 sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
-                helm upgrade --install app fastapi --values=values.yml --namespace prod
+                helm upgrade --install app fastapi --values=values.yml --namespace dev
                 '''
                 }
             }
-
         }
-
+}
+post { // send email when the job has failed
+    // ..
+    failure {
+        echo "This will run if the job failed"
+        mail to: "fall-lewis.y@datascientest.com",
+             subject: "${env.JOB_NAME} - Build # ${env.BUILD_ID} has failed",
+             body: "For more info on the pipeline failure, check out the console output at ${env.BUILD_URL}"
+    }
+    // ..
 }
 }

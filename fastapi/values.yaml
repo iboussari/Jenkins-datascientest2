@@ -36,6 +36,7 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
+
 service:
   type: NodePort
   port: 80
